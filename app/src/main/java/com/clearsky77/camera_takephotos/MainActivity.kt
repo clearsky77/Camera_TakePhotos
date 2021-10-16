@@ -12,6 +12,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
+    val REQUEST_IMAGE_CAPTURE = 101
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -21,6 +23,13 @@ class MainActivity : AppCompatActivity() {
                 // 권한이 허용 되었을 때. 실행한다.
                 override fun onPermissionGranted() {
                     Toast.makeText(this@MainActivity, "권한 승인됨.", Toast.LENGTH_SHORT).show()
+
+                    Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+                        takePictureIntent.resolveActivity(packageManager)?.also {
+                            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                        }
+                    }
+
                 }
                 // 권한 거절 되었을 때.
                 override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
