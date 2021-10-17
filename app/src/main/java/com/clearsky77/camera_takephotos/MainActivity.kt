@@ -29,20 +29,16 @@ class MainActivity : AppCompatActivity() {
                             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
                         }
                     }
-
                 }
                 // 권한 거절 되었을 때.
                 override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
                     Toast.makeText(this@MainActivity, "권한 거절됨.", Toast.LENGTH_SHORT).show()
                 }
             }
-
             TedPermission.create()
                 .setPermissionListener(pl)
                 .setPermissions(Manifest.permission.CAMERA) // 카메라 권한
                 .check()
         }
-
     }
-
 }

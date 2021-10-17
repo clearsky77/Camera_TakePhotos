@@ -8,6 +8,12 @@
     android:gravity="center"
     tools:context=".MainActivity">
 
+    <ImageView
+        android:id="@+id/photoView"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@mipmap/ic_launcher"/>
+
     <Button
         android:id="@+id/OpenCameraBtn"
         android:layout_width="wrap_content"
