@@ -19,7 +19,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        OpenCameraBtn.setOnClickListener {
+        // 카메라1 - 단순 캡쳐
+        cameraBtn1.setOnClickListener {
            val pl = object : PermissionListener {
                 // 권한이 허용 되었을 때. 실행한다.
                 override fun onPermissionGranted() {
