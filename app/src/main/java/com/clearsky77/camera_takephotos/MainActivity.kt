@@ -2,6 +2,7 @@ package com.clearsky77.camera_takephotos
 
 import android.Manifest
 import android.content.Intent
+import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
@@ -41,4 +42,17 @@ class MainActivity : AppCompatActivity() {
                 .check()
         }
     }
+
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        // 사진을 찍고 돌아왔다면
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            val imageBitmap = data?.extras?.get("data") as Bitmap
+            photoView.setImageBitmap(imageBitmap) //화면에 보여준다.
+        }
+    }
+
 }
