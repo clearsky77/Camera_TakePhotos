@@ -3,7 +3,9 @@ package com.clearsky77.camera_takephotos
 import android.Manifest
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.ImageDecoder
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
@@ -84,6 +86,24 @@ class MainActivity : AppCompatActivity() {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             val imageBitmap = data?.extras?.get("data") as Bitmap
             photoView.setImageBitmap(imageBitmap) //화면에 보여준다.
+        }
+        // 버전에 따른 처리해주기
+        else if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
+            val bitmap: Bitmap
+            val file = File(currentPhotoPath)
+
+            // 버전이 28(Pie 버전) 보다 낮을 경우
+            if (Build.VERSION.SDK_INT < 28) {
+                bitmap = MediaStore.Images.Media.getBitmap(contentResolver, Uri.fromFile(file))
+                photoView.setImageBitmap(bitmap)
+            } else {
+                val decode = ImageDecoder.createSource(
+                    this.contentResolver,
+                    Uri.fromFile(file)
+                )
+                bitmap = ImageDecoder.decodeBitmap(decode)
+                photoView.setImageBitmap(bitmap)
+            }
         }
     }
 
