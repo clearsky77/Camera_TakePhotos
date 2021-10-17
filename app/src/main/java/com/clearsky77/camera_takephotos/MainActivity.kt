@@ -42,8 +42,35 @@ class MainActivity : AppCompatActivity() {
                 .setPermissions(Manifest.permission.CAMERA) // 카메라 권한
                 .check()
         }
+
+        // 카메라2 - 캡처 후 저장
+        cameraBtn2.setOnClickListener {
+            val pl = object : PermissionListener {
+                // 권한이 허용 되었을 때. 실행한다.
+                override fun onPermissionGranted() {
+
+                    dispatchTakePictureIntent()
+
+                }
+
+                // 권한 거절 되었을 때.
+                override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
+                    Toast.makeText(this@MainActivity, "권한 거절됨.", Toast.LENGTH_SHORT).show()
+                }
+            }
+            TedPermission.create()
+                .setPermissionListener(pl)
+                .setPermissions(Manifest.permission.CAMERA) // 카메라 권한
+                .check()
+        }
+
+
     }
 
+
+    private fun dispatchTakePictureIntent() {
+
+    }
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
