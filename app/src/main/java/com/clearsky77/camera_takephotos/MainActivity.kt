@@ -16,6 +16,7 @@ import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -104,6 +105,7 @@ class MainActivity : AppCompatActivity() {
                 bitmap = ImageDecoder.decodeBitmap(decode)
                 photoView.setImageBitmap(bitmap)
             }
+            savePhoto(bitmap)
         }
     }
 
@@ -152,6 +154,24 @@ class MainActivity : AppCompatActivity() {
             // Save a file: path for use with ACTION_VIEW intents
             currentPhotoPath = absolutePath
         }
+    }
+
+    /**
+     * 갤러리에 저장하는 메소드
+     */
+    private fun savePhoto(bitmap: Bitmap) {
+        val folderPath =
+            Environment.getExternalStorageDirectory().absolutePath + "/Pictures/" // 사진 폴더 저장 경로
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val fileName = "${timeStamp}.jpeg"
+        val folder = File(folderPath)
+        if (!folder.isDirectory) { // 폴더가 존재하지 않으면
+            folder.mkdir() // make directory: 폴더를 만든다
+        }
+        // 저장 처리
+        val out = FileOutputStream(folderPath + fileName)
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
+        Toast.makeText(this, "사진이 저장되었습니다.", Toast.LENGTH_SHORT).show()
     }
 
 }
